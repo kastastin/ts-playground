@@ -2,5 +2,8 @@
   "compilerOptions": {
     "target": "ES5",
     "outDir": "dist",
+    "allowJs": true,
+    "checkJs": true,
+    "lib": ["ES2015.Promise", "WebWorker", "DOM"]
   }
 }

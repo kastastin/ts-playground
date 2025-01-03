@@ -1,15 +1,3 @@
-let displayName: string = "Kastastin's standing desk";
-let invertoryType: string = "furniture";
-let trackingNumber: string = "FE00001";
-let createDate: Date = new Date();
-let originalCost: number | string = 425;
-originalCost = "$425";
-
-enum InventoryItemType {
-  Computer = "computer",
-  Furniture = "furniture",
-}
-
 interface InventoryItem {
   displayName: string;
   invertoryType: "computer" | "furniture";
@@ -24,19 +12,30 @@ function getInventoryItem(trackingNumber: string): InventoryItem {
   return null;
 }
 
-function saveInventoryItem(item: InventoryItem) {
-  // item.trackingNumber = "newTrackingNumber"; // readonly property
+function saveInventoryItem(item: InventoryItem) {}
+
+function updateInventoryItem(
+  trackingNumber: string,
+  item: Omit<Partial<InventoryItem>, "trackingNumber" | "createDate">,
+) {}
+
+updateInventoryItem("ID109", {
+  displayName: "MacBook Pro",
+  // createDate: new Date(), // error -> Omit<>
+});
+
+function clone<T, U>(source: T, option: U): T {
+  const serialized = JSON.stringify(source);
+  return JSON.parse(serialized);
 }
 
-let invertoryItem = getInventoryItem(trackingNumber);
+clone({ name: "Bob" }, { deep: true });
 
-let updatedInventoryItem = invertoryItem;
+interface KeyValuePair<TKey, TValue> {
+  Key: TKey;
+  Value: TValue;
+}
 
-invertoryItem.createDate = new Date();
+const keyValue: KeyValuePair<string, number> = { Key: "age", Value: 30 };
 
-saveInventoryItem({
-  displayName: "MacBook Pro 15 Retina",
-  invertoryType: "computer",
-  trackingNumber: "MBP00002",
-  createDate: new Date(),
-});
+declare const Vue: any;
