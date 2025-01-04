@@ -88,3 +88,55 @@ logText("Example text", "center");
 function liveDangerously(x?: number | null) {
   console.log(x!.toFixed());
 }
+
+// <-- instanceof narrowing -->
+
+function logValue(x: Date | string) {
+  if (x instanceof Date) {
+    console.log(x.toUTCString());
+  } else {
+    console.log(x.toUpperCase());
+  }
+}
+
+// <-- Discriminated unions -->
+
+interface Circle {
+  kind: "circle";
+  radius: number;
+}
+
+interface Square {
+  kind: "square";
+  sideLength: number;
+}
+
+type Shape = Circle | Square;
+
+function getArea(shape: Shape) {
+  // "kind" -> considered a discriminant property of Shape
+  switch (shape.kind) {
+    case "circle":
+      return Math.PI * shape.radius ** 2;
+    case "square":
+      return shape.sideLength ** 2;
+    default:
+      const _exhaustiveCheck: never = shape;
+      return _exhaustiveCheck;
+  }
+}
+
+// <-- Generic Functions --> 
+
+function firstElement<T>(arr: T[]):T | undefined {
+  return arr[0];
+}
+const n = firstElement([1, 2, 3]); // 1
+
+function mapFn<Input, Output>(
+  arr: Input[],
+  func: (arg: Input) => Output,
+): Output[] {
+  return arr.map(func);
+}
+const parsed = mapFn(["1", "2", "3"], (n) => parseInt(n));
